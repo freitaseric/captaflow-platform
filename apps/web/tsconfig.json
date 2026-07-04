@@ -1,0 +1,5 @@
+{
+	"extends": "@captaflow/config/tsconfig/vite-react",
+	"include": ["src"],
+	"references": [{ "path": "./tsconfig.node.json" }]
+}

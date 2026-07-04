@@ -1,0 +1,9 @@
+{
+	"extends": "@captaflow/config/tsconfig/vite-config",
+	"compilerOptions": {
+		"outDir": "node_modules/.cache/tsconfig-node",
+		"moduleResolution": "bundler",
+		"resolvePackageJsonImports": true
+	},
+	"include": ["vite.config.ts"]
+}
