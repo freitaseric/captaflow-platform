@@ -1,0 +1,28 @@
+{
+	"name": "@captaflow/contracts",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./auth": {
+			"types": "./dist/auth.d.ts",
+			"default": "./dist/auth.js"
+		}
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"typecheck": "tsc -p tsconfig.json --noEmit",
+		"lint": "biome lint .",
+		"format": "biome format .",
+		"check": "pnpm run typecheck && pnpm run lint"
+	},
+	"devDependencies": {
+		"@captaflow/config": "workspace:*"
+	}
+}
