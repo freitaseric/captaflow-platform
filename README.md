@@ -1,110 +1,106 @@
 # CaptaFlow Platform
 
-Repositorio da plataforma CaptaFlow.
+Monorepo da plataforma CaptaFlow.
 
-No estado atual, este repositorio contem a API backend em `captaflow-api/`. A
-estrutura de checkout, app desktop e pacotes compartilhados ainda nao existe
-neste checkout.
+## Estrutura
 
-## Projeto Disponivel
+```txt
+.
+|-- apps/
+|   |-- api/
+|   `-- desktop/
+|-- packages/
+|   |-- config/
+|   `-- types/
+|-- package.json
+|-- pnpm-workspace.yaml
+`-- turbo.json
+```
+
+## Projetos
 
 | Caminho | Descricao |
 | --- | --- |
-| `captaflow-api/` | API HTTP em Fastify com TypeScript, Better Auth, Drizzle ORM e PostgreSQL. |
+| `apps/api/` | API HTTP em Fastify com TypeScript, Better Auth, Drizzle ORM e PostgreSQL. |
+| `apps/web/` | App web publico usado para login, cadastro e retorno do fluxo desktop. |
+| `apps/desktop/` | App desktop Tauri com Vite, React e TypeScript. |
+| `packages/config/` | Base para configuracoes compartilhadas do workspace. |
+| `packages/contracts/` | Pacote para contratos compartilhados entre apps. |
 
-## Stack Atual
+## Requisitos
 
-| Area | Tecnologia |
-| --- | --- |
-| Runtime | Node.js |
-| Linguagem | TypeScript |
-| Package manager | pnpm |
-| API | Fastify |
-| Autenticacao | Better Auth |
-| ORM | Drizzle ORM |
-| Banco de dados | PostgreSQL |
-| Validacao/config | Zod e dotenv |
-| Formatacao/lint | Biome |
-| Ambiente local | Docker Compose para PostgreSQL |
+- Node.js >= 22
+- pnpm 11.9.0
+- Docker e Docker Compose, para o PostgreSQL local da API
+- Rust/Tauri toolchain, para os comandos Tauri do app desktop
 
-## Como Rodar
+## Instalacao
 
-Entre no diretorio da API:
-
-```sh
-cd captaflow-api
-```
-
-Instale as dependencias:
+Instale as dependencias na raiz do monorepo:
 
 ```sh
 pnpm install
 ```
 
-Crie o arquivo `.env` com as variaveis esperadas pela API:
+## Desenvolvimento
 
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/captaflow
-CORS_ALLOWED_ORIGINS=http://localhost:3000
+```sh
+pnpm dev
 ```
 
-Suba o PostgreSQL local:
+O comando acima e orquestrado pelo Turborepo e executa os scripts `dev` dos
+apps do workspace.
+
+Para rodar apenas um app:
+
+```sh
+pnpm --filter captaflow-api dev
+pnpm --filter captaflow-desktop dev
+```
+
+## Comandos
+
+| Comando | Descricao |
+| --- | --- |
+| `pnpm dev` | Executa os apps em desenvolvimento via Turbo. |
+| `pnpm build` | Executa os builds dos pacotes/apps. |
+| `pnpm check` | Executa typecheck e lint dos pacotes/apps. |
+| `pnpm typecheck` | Executa apenas os typechecks. |
+| `pnpm lint` | Executa os lints do Biome. |
+| `pnpm format` | Executa os formatadores definidos nos pacotes/apps. |
+
+## API
+
+Crie o arquivo `.env` em `apps/api/`:
+
+```env
+NODE_ENV=development
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/captaflow
+WEB_PUBLIC_URL=http://localhost:5173
+API_PUBLIC_URL=http://localhost:3000
+CORS_ALLOWED_ORIGINS=http://localhost:5173
+GOOGLE_CLIENT_ID=local-google-client-id
+GOOGLE_CLIENT_SECRET=local-google-client-secret
+```
+
+Variaveis publicas de build:
+
+| App | Arquivo local sugerido | Variaveis |
+| --- | --- | --- |
+| `apps/web` | `.env.local` | `VITE_API_BASE_URL=http://localhost:3000` |
+| `apps/desktop` | `.env.local` | `VITE_API_BASE_URL=http://localhost:3000`, `VITE_WEB_BASE_URL=http://localhost:5173` |
+
+As variaveis `VITE_*` sao embutidas pelo Vite no momento do build. No bundle
+do Tauri elas nao sao lidas do ambiente do usuario final. Em build de producao,
+web e desktop falham se as URLs publicas obrigatorias nao estiverem definidas.
+
+Suba o PostgreSQL local a partir de `apps/api/`:
 
 ```sh
 docker compose up -d
 ```
 
-Rode a API em desenvolvimento:
-
-```sh
-pnpm dev
-```
-
-A API sobe em `http://localhost:3000`.
-
-## Comandos da API
-
-Os comandos disponiveis hoje estao definidos em `captaflow-api/package.json`:
-
-```sh
-pnpm dev
-pnpm build
-pnpm lint
-pnpm format
-```
-
-Veja mais detalhes em [captaflow-api/README.md](captaflow-api/README.md).
-
-## Estrutura Atual
-
-```txt
-.
-|-- README.md
-`-- captaflow-api/
-    |-- src/
-    |   |-- app.ts
-    |   |-- db/
-    |   |-- modules/
-    |   `-- shared/
-    |-- drizzle/
-    |-- postman/
-    |-- docker-compose.yml
-    |-- drizzle.config.ts
-    |-- package.json
-    `-- pnpm-workspace.yaml
-```
-
-## Status
-
-Fundacao da API em andamento. Ja existem:
-
-- servidor Fastify;
-- health check em `GET /health`;
-- CORS configurado por `CORS_ALLOWED_ORIGINS`;
-- autenticacao por Better Auth;
-- schema inicial de autenticacao com Drizzle;
-- configuracao local de PostgreSQL via Docker Compose;
-- colecoes Postman para testar os fluxos iniciais de autenticacao.
+Mais detalhes em [apps/api/README.md](apps/api/README.md).
 
 ## Licenca
 

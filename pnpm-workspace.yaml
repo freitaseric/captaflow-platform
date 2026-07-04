@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@freitas-ds/react@0.3.0'
+  - freitas-ds@0.3.0

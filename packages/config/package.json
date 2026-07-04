@@ -1,0 +1,19 @@
+{
+	"name": "@captaflow/config",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"exports": {
+		"./biome": "./biome.json",
+		"./tsconfig/base": "./tsconfig/base.json",
+		"./tsconfig/library": "./tsconfig/library.json",
+		"./tsconfig/node": "./tsconfig/node.json",
+		"./tsconfig/vite-config": "./tsconfig/vite-config.json",
+		"./tsconfig/vite-react": "./tsconfig/vite-react.json"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"format": "biome format .",
+		"check": "pnpm run lint"
+	}
+}

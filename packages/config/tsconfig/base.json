@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"forceConsistentCasingInFileNames": true,
+		"moduleDetection": "force",
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"resolveJsonModule": true,
+		"skipDefaultLibCheck": true,
+		"strict": true,
+		"skipLibCheck": true
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"extends": "./base.json",
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"lib": ["esnext"],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"sourceMap": true,
+		"target": "esnext",
+		"types": ["node"]
+	}
+}

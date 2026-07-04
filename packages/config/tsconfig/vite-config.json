@@ -1,0 +1,9 @@
+{
+	"extends": "./base.json",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"composite": true,
+		"module": "ESNext",
+		"moduleResolution": "bundler"
+	}
+}
